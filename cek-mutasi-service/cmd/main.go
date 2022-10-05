@@ -40,6 +40,7 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 	}
 
+	log.Println("start servet at ", srv.Addr)
 	log.Fatal(srv.ListenAndServe())
 }
 

@@ -14,21 +14,3 @@ type Transaction struct {
 func (Transaction) TableName() string {
 	return "tbl_transaksi"
 }
-
-type ListTransaction []*Transaction
-
-func (lt ListTransaction) ToResponseItems() []*TransactionResponseItem {
-	list := make([]*TransactionResponseItem, len(lt))
-	for i, v := range lt {
-		list[i] = &TransactionResponseItem{
-			CreatedAt:    int32(v.CreatedAt),
-			Type:         v.Type,
-			GoldWeight:   v.GoldWeight,
-			GoldBalance:  v.GoldBalance,
-			HargaTopup:   v.HargaTopup,
-			HargaBuyback: v.HargaBuyback,
-		}
-	}
-
-	return list
-}

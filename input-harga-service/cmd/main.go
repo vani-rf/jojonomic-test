@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -21,11 +22,11 @@ func main() {
 		log.Fatal("Error load environment variable")
 	}
 
-	kafkaWriter := getKafkaWriter(os.Getenv("KAFKA_URL"), os.Getenv("KAFKA_TOPIC"))
-	defer kafkaWriter.Close()
+	kafkaConn := createKafkaConn(os.Getenv("KAFKA_URL"), os.Getenv("KAFKA_TOPIC"))
+	defer kafkaConn.Close()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/api/input-harga", HandleInputHarga(kafkaWriter)).Methods(http.MethodPost)
+	r.HandleFunc("/api/input-harga", HandleInputHarga(kafkaConn)).Methods(http.MethodPost)
 
 	srv := &http.Server{
 		Handler:      r,
@@ -34,10 +35,11 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 	}
 
+	log.Println("start servet at ", srv.Addr)
 	log.Fatal(srv.ListenAndServe())
 }
 
-func HandleInputHarga(kafkaWriter *kafka.Writer) func(w http.ResponseWriter, r *http.Request) {
+func HandleInputHarga(kafkaConn *kafka.Conn) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		var req models.InputHargaRequest
@@ -71,11 +73,12 @@ func HandleInputHarga(kafkaWriter *kafka.Writer) func(w http.ResponseWriter, r *
 			return
 		}
 
+		kafkaConn.SetWriteDeadline(time.Now().Add(10 * time.Second))
 		msg := kafka.Message{
 			Key:   []byte(fmt.Sprintf("address-%s", r.RemoteAddr)),
 			Value: payloadBytes,
 		}
-		err = kafkaWriter.WriteMessages(r.Context(), msg)
+		_, err = kafkaConn.WriteMessages(msg)
 		if err != nil {
 			log.Println(err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
@@ -94,10 +97,11 @@ func HandleInputHarga(kafkaWriter *kafka.Writer) func(w http.ResponseWriter, r *
 	}
 }
 
-func getKafkaWriter(kafkaURL, topic string) *kafka.Writer {
-	return &kafka.Writer{
-		Addr:     kafka.TCP(kafkaURL),
-		Topic:    topic,
-		Balancer: &kafka.LeastBytes{},
+func createKafkaConn(kafkaURL, topic string) *kafka.Conn {
+	conn, err := kafka.DialLeader(context.Background(), "tcp", kafkaURL, topic, 0)
+	if err != nil {
+		log.Fatal(err.Error())
 	}
+
+	return conn
 }
