@@ -48,3 +48,19 @@ services:
     depends_on:
       - zookeeper  
       - kafka
+  input-harga-service:
+    build: 
+      context: ../input-harga-service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8000
+      KAFKA_URL: kafka:9093
+      KAFKA_TOPIC: input-harga
+    volumes: 
+      - ../input-harga-service/.env:/app/.env:rw
+    depends_on:
+      - zookeeper
+      - kafka

@@ -19,7 +19,7 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error load environment variable")
+		log.Print("Error load environment variable")
 	}
 
 	kafkaConn := createKafkaConn(os.Getenv("KAFKA_URL"), os.Getenv("KAFKA_TOPIC"))
