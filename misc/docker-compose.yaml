@@ -240,7 +240,7 @@ services:
       KAFKA_GROUP_ID: topup_storage_service
     restart: always
     depends_on:
-      - buyback-service
+      - topup-service
     networks:
       - default-network
 networks:
