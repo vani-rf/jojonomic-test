@@ -10,7 +10,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/segmentio/kafka-go"
-	"github.com/vani-rf/jojonomic-test/input-harga-storage-service/models"
+	"github.com/vani-rf/jojonomic-test/microservices/input-harga-storage-service/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -19,23 +19,26 @@ func main() {
 
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error load environment variable")
+		log.Print("Error load from file, read environemt from os environment")
 	}
 
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
 		os.Getenv("DB_HOST"), os.Getenv("DB_USER"), os.Getenv("DB_PASS"), os.Getenv("DB_NAME"), os.Getenv("DB_PORT"),
 	)
+	log.Println("connecting to db at ", dsn)
 	db, err := gorm.Open(postgres.Open(dsn), nil)
 	if err != nil {
 		log.Fatal("Error connect to db")
 	}
+	log.Println("cennected to db at ", dsn)
 
 	r := getKafkaReader(os.Getenv("KAFKA_URL"), os.Getenv("KAFKA_TOPIC"), os.Getenv("KAFKA_GROUP_ID"))
 	ctx := context.Background()
 	for {
 		m, err := r.FetchMessage(ctx)
 		if err != nil {
+			log.Println("fetch message error :", err)
 			break
 		}
 		log.Printf("message at topic/partition/offset %v/%v/%v: %s\n", m.Topic, m.Partition, m.Offset, string(m.Key))

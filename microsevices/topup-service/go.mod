@@ -1,4 +1,4 @@
-module github.com/vani-rf/jojonomic-test/topup-service
+module github.com/vani-rf/jojonomic-test/microservices/topup-service
 
 go 1.19
 
@@ -28,6 +28,6 @@ require (
 	github.com/klauspost/compress v1.15.7 // indirect
 	github.com/pierrec/lz4/v4 v4.1.15 // indirect
 	github.com/teris-io/shortid v0.0.0-20220617161101-71ec9f2aa569
-	github.com/vani-rf/jojonomic-test/buyback-service v0.0.0-20221005151057-f435e0a49b4e
+	github.com/vani-rf/jojonomic-test/microservices/buyback-service v0.0.0-20221005151057-f435e0a49b4e
 	gorm.io/driver/postgres v1.3.10
 )

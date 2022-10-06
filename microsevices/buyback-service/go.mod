@@ -1,4 +1,4 @@
-module github.com/vani-rf/jojonomic-test/buyback-service
+module github.com/vani-rf/jojonomic-test/microservices/buyback-service
 
 go 1.19
 

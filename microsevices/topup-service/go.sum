@@ -113,8 +113,8 @@ github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/teris-io/shortid v0.0.0-20220617161101-71ec9f2aa569 h1:xzABM9let0HLLqFypcxvLmlvEciCHL7+Lv+4vwZqecI=
 github.com/teris-io/shortid v0.0.0-20220617161101-71ec9f2aa569/go.mod h1:2Ly+NIftZN4de9zRmENdYbvPQeaVIYKWpLFStLFEBgI=
-github.com/vani-rf/jojonomic-test/buyback-service v0.0.0-20221005151057-f435e0a49b4e h1:PohsFiPiBYpOQJzT9nCGArZrf7ktm6Ie+4azEVurdtI=
-github.com/vani-rf/jojonomic-test/buyback-service v0.0.0-20221005151057-f435e0a49b4e/go.mod h1:uzP13/N7mz3tLgC2blrBtDlI3njwOlJNrgk/S6AhQ7s=
+github.com/vani-rf/jojonomic-test/microservices/buyback-service v0.0.0-20221005151057-f435e0a49b4e h1:PohsFiPiBYpOQJzT9nCGArZrf7ktm6Ie+4azEVurdtI=
+github.com/vani-rf/jojonomic-test/microservices/buyback-service v0.0.0-20221005151057-f435e0a49b4e/go.mod h1:uzP13/N7mz3tLgC2blrBtDlI3njwOlJNrgk/S6AhQ7s=
 github.com/xdg/scram v1.0.5/go.mod h1:lB8K/P019DLNhemzwFU4jHLhdvlE6uDZjXFejJXr49I=
 github.com/xdg/stringprep v1.0.3/go.mod h1:Jhud4/sHMO4oL310DaZAKk9ZaJ08SJfe+sJh0HrGL1Y=
 github.com/zenazn/goji v0.9.0/go.mod h1:7S9M489iMyHBNxwZnk9/EHS098H4/F6TATF2mIxtB1Q=

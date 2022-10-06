@@ -10,7 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
-	"github.com/vani-rf/jojonomic-test/cek-harga-service/models"
+	"github.com/vani-rf/jojonomic-test/microservices/cek-harga-service/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -18,7 +18,7 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error load environment variable")
+		log.Print("Error load from file, read environemt from os environment")
 	}
 
 	dsn := fmt.Sprintf(
@@ -49,7 +49,7 @@ func HendleGetHarga(db *gorm.DB) func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
 		var harga models.Harga
-		if err := db.Model(&harga).First(&harga).Order("created_at desc").Error; err != nil {
+		if err := db.Model(harga).Order("created_at desc").First(&harga).Error; err != nil {
 			code := http.StatusInternalServerError
 			if err == gorm.ErrRecordNotFound {
 				code = http.StatusNotFound
@@ -62,6 +62,7 @@ func HendleGetHarga(db *gorm.DB) func(w http.ResponseWriter, r *http.Request) {
 			})
 		}
 
+		log.Printf("found harga : %+v", harga)
 		json.NewEncoder(w).Encode(models.Response{
 			IsError: false,
 			Data: struct {

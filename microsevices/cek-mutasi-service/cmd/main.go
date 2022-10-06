@@ -10,7 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
-	"github.com/vani-rf/jojonomic-test/cek-mutasi-service/models"
+	"github.com/vani-rf/jojonomic-test/microservices/cek-mutasi-service/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -18,7 +18,7 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error load environment variable")
+		log.Print("Error load from file, read environemt from os environment")
 	}
 
 	dsn := fmt.Sprintf(

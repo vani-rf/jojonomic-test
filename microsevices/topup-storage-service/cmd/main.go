@@ -11,7 +11,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/segmentio/kafka-go"
-	"github.com/vani-rf/jojonomic-test/topup-storage-service/models"
+	"github.com/vani-rf/jojonomic-test/microservices/topup-storage-service/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -20,7 +20,7 @@ func main() {
 
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error load environment variable")
+		log.Print("Error load from file, read environemt from os environment")
 	}
 
 	dsn := fmt.Sprintf(

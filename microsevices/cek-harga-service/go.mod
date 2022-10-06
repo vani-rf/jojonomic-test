@@ -1,4 +1,4 @@
-module github.com/vani-rf/jojonomic-test/cek-harga-service
+module github.com/vani-rf/jojonomic-test/microservices/cek-harga-service
 
 go 1.19
 

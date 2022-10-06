@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"admin_id\": \"a001\",\n    \"harga_topup\": 10000,\n    \"harga_buyback\": 12000\n}",
+					"raw": "{\n    \"admin_id\": \"a001\",\n    \"harga_topup\": 8000,\n    \"harga_buyback\": 9000\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -21,13 +21,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://0.0.0.0:8000/api/input-harga",
+					"raw": "http://localhost:8000/api/input-harga",
 					"protocol": "http",
 					"host": [
-						"0",
-						"0",
-						"0",
-						"0"
+						"localhost"
 					],
 					"port": "8000",
 					"path": [
@@ -45,7 +42,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"norek\": \"rek001\",\n    \"harga\": 12000,\n    \"gram\": 0.1\n}",
+					"raw": "{\n    \"norek\": \"rek001\",\n    \"harga\": 12000,\n    \"gram\": 0.5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -53,13 +50,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://0.0.0.0:8004/api/buyback",
+					"raw": "http://localhost:8004/api/buyback",
 					"protocol": "http",
 					"host": [
-						"0",
-						"0",
-						"0",
-						"0"
+						"localhost"
 					],
 					"port": "8004",
 					"path": [
@@ -77,7 +71,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"norek\": \"rek001\",\n    \"harga\": 10000,\n    \"gram\": 0.3\n}",
+					"raw": "{\n    \"norek\": \"rek001\",\n    \"harga\": 10000,\n    \"gram\": 0.7\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -85,13 +79,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://0.0.0.0:8005/api/topup",
+					"raw": "http://localhost:8005/api/topup",
 					"protocol": "http",
 					"host": [
-						"0",
-						"0",
-						"0",
-						"0"
+						"localhost"
 					],
 					"port": "8005",
 					"path": [
@@ -108,13 +99,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://0.0.0.0:8001/api/check-harga",
+					"raw": "http://localhost:8001/api/check-harga",
 					"protocol": "http",
 					"host": [
-						"0",
-						"0",
-						"0",
-						"0"
+						"localhost"
 					],
 					"port": "8001",
 					"path": [
@@ -143,13 +131,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://0.0.0.0:8002/api/mutasi",
+					"raw": "http://localhost:8002/api/mutasi",
 					"protocol": "http",
 					"host": [
-						"0",
-						"0",
-						"0",
-						"0"
+						"localhost"
 					],
 					"port": "8002",
 					"path": [
@@ -178,13 +163,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://0.0.0.0:8003/api/saldo",
+					"raw": "http://localhost:8003/api/saldo",
 					"protocol": "http",
 					"host": [
-						"0",
-						"0",
-						"0",
-						"0"
+						"localhost"
 					],
 					"port": "8003",
 					"path": [

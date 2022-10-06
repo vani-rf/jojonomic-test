@@ -13,7 +13,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/segmentio/kafka-go"
 	"github.com/teris-io/shortid"
-	"github.com/vani-rf/jojonomic-test/buyback-service/models"
+	"github.com/vani-rf/jojonomic-test/microservices/buyback-service/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -21,7 +21,7 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error load environment variable")
+		log.Print("Error load from file, read environemt from os environment")
 	}
 
 	kafkaConn := createKafkaConn(os.Getenv("KAFKA_URL"), os.Getenv("KAFKA_TOPIC"))

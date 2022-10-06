@@ -1,4 +1,4 @@
-module github.com/vani-rf/jojonomic-test/cek-mutasi-service
+module github.com/vani-rf/jojonomic-test/microservices/cek-mutasi-service
 
 go 1.19
 

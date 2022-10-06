@@ -13,13 +13,13 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/segmentio/kafka-go"
 	"github.com/teris-io/shortid"
-	"github.com/vani-rf/jojonomic-test/input-harga-service/models"
+	"github.com/vani-rf/jojonomic-test/microservices/input-harga-service/models"
 )
 
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Print("Error load environment variable")
+		log.Print("Error load from file, read environemt from os environment")
 	}
 
 	kafkaConn := createKafkaConn(os.Getenv("KAFKA_URL"), os.Getenv("KAFKA_TOPIC"))

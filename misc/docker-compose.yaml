@@ -12,13 +12,17 @@ services:
     volumes: 
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./db/data:/var/lib/postgresql/data
+    networks:
+      - default-network
   zookeeper:
     image: confluentinc/cp-zookeeper:5.2.4
     ports:
-      - '2181:2181'
+      - 2181:2181
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - default-network
   kafka:
     image: confluentinc/cp-kafka:5.3.1
     ports:
@@ -35,6 +39,8 @@ services:
       KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka1 -Dcom.sun.management.jmxremote.rmi.port=9998
     depends_on:
       - zookeeper 
+    networks:
+      - default-network
   kafka-ui:
     image: provectuslabs/kafka-ui
     container_name: kafka-ui
@@ -48,3 +54,194 @@ services:
     depends_on:
       - zookeeper  
       - kafka
+    networks:
+      - default-network
+  ## Microservices
+  ### Buyback
+  buyback-service:
+    build: 
+      context: ../microsevices/buyback-service
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8004"
+    restart: always
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8004
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: adminpostgres
+      DB_PASS: 87654321
+      DB_NAME: gold_store
+      KAFKA_URL: kafka:29092
+      KAFKA_TOPIC: buyback
+    depends_on:
+      - zookeeper  
+      - kafka
+    networks:
+      - default-network
+  buyback-storage-service:
+    build: 
+      context: ../microsevices/buyback-storage-service
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: adminpostgres
+      DB_PASS: 87654321
+      DB_NAME: gold_store
+      KAFKA_URL: kafka:29092
+      KAFKA_TOPIC: buyback
+      KAFKA_GROUP_ID: buyback_storage_service
+    restart: always
+    depends_on:
+      - buyback-service
+    networks:
+      - default-network
+
+  ### cek harga
+  cek-harga-service:
+    build: 
+      context: ../microsevices/cek-harga-service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    restart: always
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: adminpostgres
+      DB_PASS: 87654321
+      DB_NAME: gold_store
+    depends_on:
+      - zookeeper  
+      - kafka
+    networks:
+      - default-network
+  
+  ### cek mutasi
+  cek-mutasi-service:
+    build: 
+      context: ../microsevices/cek-mutasi-service
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    restart: always
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8002
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: adminpostgres
+      DB_PASS: 87654321
+      DB_NAME: gold_store
+    depends_on:
+      - zookeeper  
+      - kafka
+    networks:
+      - default-network
+
+  ### cek saldo
+  cek-saldo-service:
+    build: 
+      context: ../microsevices/cek-saldo-service
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    restart: always
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8003
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: adminpostgres
+      DB_PASS: 87654321
+      DB_NAME: gold_store
+    depends_on:
+      - zookeeper  
+      - kafka
+    networks:
+      - default-network
+
+  ### input harga
+  input-harga-service:
+    build: 
+      context: ../microsevices/input-harga-service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    restart: always
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8000
+      KAFKA_URL: kafka:29092
+      KAFKA_TOPIC: input-harga
+    depends_on:
+      - zookeeper  
+      - kafka
+    networks:
+      - default-network
+  input-harga-storage-service:
+    build: 
+      context: ../microsevices/input-harga-storage-service
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: adminpostgres
+      DB_PASS: 87654321
+      DB_NAME: gold_store
+      KAFKA_URL: kafka:29092
+      KAFKA_TOPIC: input-harga
+      KAFKA_GROUP_ID: input_storage_service
+    restart: always
+    depends_on:
+      - input-harga-service
+    networks:
+      - default-network
+
+  ### Topup
+  topup-service:
+    build: 
+      context: ../microsevices/topup-service
+      dockerfile: Dockerfile
+    ports:
+      - "8005:8005"
+    restart: always
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8005
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: adminpostgres
+      DB_PASS: 87654321
+      DB_NAME: gold_store
+      KAFKA_URL: kafka:29092
+      KAFKA_TOPIC: topup
+    depends_on:
+      - zookeeper  
+      - kafka
+    networks:
+      - default-network
+  topup-storage-service:
+    build: 
+      context: ../microsevices/topup-storage-service
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: adminpostgres
+      DB_PASS: 87654321
+      DB_NAME: gold_store
+      KAFKA_URL: kafka:29092
+      KAFKA_TOPIC: topup
+      KAFKA_GROUP_ID: topup_storage_service
+    restart: always
+    depends_on:
+      - buyback-service
+    networks:
+      - default-network
+networks:
+  default-network:

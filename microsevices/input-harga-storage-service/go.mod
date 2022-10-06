@@ -1,4 +1,4 @@
-module github.com/vani-rf/jojonomic-test/input-harga-storage-service
+module github.com/vani-rf/jojonomic-test/microservices/input-harga-storage-service
 
 go 1.19
 
